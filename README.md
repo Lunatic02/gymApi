@@ -7,8 +7,8 @@ Utilizando metodologia SOLID
 # Rfs (Requisitos funcionais)
 
 - [x] Deve ser possivel se cadastrar;
-- [ ] Deve ser possível fazer autenticação;
-- [ ] Deve ser possível obter o perfil de um usuario logado;
+- [x] Deve ser possível fazer autenticação;
+- [x] Deve ser possível obter o perfil de um usuario logado;
 - [ ] Deve ser possível obter o número de check-ins realizados pelo usuário logado;
 - [ ] Deve ser possível o usuário obter seu histórico de check-ins;
 - [ ] Deve ser possível o usuário buscar academias proximas;
