@@ -8,6 +8,16 @@ export class inMemoryCheckInsRepository implements CheckInsRepository {
 
   public items: checkIn[] = []
 
+  async findById(id: string) {
+    const checkIn = this.items.find((item) => item.id === id)
+
+    if (!checkIn) {
+      return null
+    }
+
+    return checkIn
+  }
+
   async finByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf('date')
     const endOfTheDay = dayjs(date).endOf('date')
@@ -23,6 +33,16 @@ export class inMemoryCheckInsRepository implements CheckInsRepository {
       return null
     }
     return checkInOnSameDate
+  }
+
+  async save(checkIn: checkIn) {
+    const checkInIndex = this.items.findIndex((item) => item.id === checkIn.id)
+
+    if (checkInIndex >= 0) {
+      this.items[checkInIndex] = checkIn
+    }
+
+    return checkIn
   }
 
   async findManyByUserId(userId: string, page: number) {
