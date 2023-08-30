@@ -22,11 +22,10 @@ export default <Environment>{
 
     process.env.DATABASE_URL = databaseURL
 
-    execSync('npx prisma generate') // Generate Prisma client for SQLite
+    execSync('npx prisma generate')
 
     return {
       async teardown() {
-
         await prisma.$disconnect()
       },
     }
