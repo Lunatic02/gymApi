@@ -8,6 +8,8 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 function generateDatabaseURL(databaseName: string) {
+
+
   const sqliteFilePath = `./${databaseName}.sqlite` // SQLite file will be stored in the current directory
   return `file:${sqliteFilePath}`
 }
