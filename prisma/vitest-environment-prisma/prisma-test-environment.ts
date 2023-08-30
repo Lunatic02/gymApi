@@ -6,29 +6,34 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-function generateDatabaseURL(databaseName: string) {
+function generateDatabaseURL(schema: string) {
   if (!process.env.DATABASE_URL) {
     throw new Error('Please provide a DATABASE_URL environment variable.')
   }
 
+  const url = new URL(process.env.DATABASE_URL)
 
-  const sqliteFilePath = `./${databaseName}.sqlite` // SQLite file will be stored in the current directory
-  return `file:${sqliteFilePath}`
+  url.searchParams.set('schema', schema)
+
+  return url.toString()
 }
 
 export default <Environment>{
-
   name: 'prisma',
   async setup() {
-    const databaseName = `api_solid_test_${randomUUID().replace(/-/g, '_')}`
-    const databaseURL = generateDatabaseURL(databaseName)
+    const schema = randomUUID()
+    const databaseURL = generateDatabaseURL(schema)
 
     process.env.DATABASE_URL = databaseURL
 
-    execSync('npx prisma generate')
+    execSync('npx prisma migrate deploy')
 
     return {
       async teardown() {
+        await prisma.$executeRawUnsafe(
+          `DROP SCHEMA IF EXISTS "${schema}" CASCADE`,
+        )
+
         await prisma.$disconnect()
       },
     }
